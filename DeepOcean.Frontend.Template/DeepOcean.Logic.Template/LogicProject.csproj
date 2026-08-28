@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<TargetFrameworks>
+			net8.0;           
+			net8.0-android;
+			net8.0-windows10.0.19041.0
+		</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<EnablePreviewFeatures>true</EnablePreviewFeatures>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DeepOcean.SDK.ApiClinet" Version="1.0.0.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.10" />
+
+		<!-- SDK Platfrom DeepOcean -->
+		<PackageReference Include="DeepOcean.Core.MK" Version="1.0.0" />
+		<PackageReference Include="DeepOcean.PM.MK" Version="1.0.0" />
+		<PackageReference Include="DeepOcean.CM.MK" Version="1.0.0" />
+
+	</ItemGroup>
+
+	<!-- Copy DeepOcean Runtime Dependencies -->
+	<Target Name="CopyDeepOceanRuntimeDependencies" AfterTargets="Build">
+		<ItemGroup>
+			<!-- استخدم فقط الـ references التي اختارها MSBuild -->
+			<DeepOceanRuntimeDlls
+				Include="@(ReferenceCopyLocalPaths)"
+				Condition="
+                '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'DeepOcean.Core.MK'
+                Or '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'DeepOcean.PM.MK'
+                Or '%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'DeepOcean.CM.MK'
+            " />
+
+		</ItemGroup>
+		<Copy
+			SourceFiles="@(DeepOceanRuntimeDlls)"
+			DestinationFiles="@(DeepOceanRuntimeDlls->'$(TargetDir)%(Filename)%(Extension)')"
+			SkipUnchangedFiles="true"
+			Condition="'@(DeepOceanRuntimeDlls)' != ''" />
+
+	</Target>
+ 
+</Project>

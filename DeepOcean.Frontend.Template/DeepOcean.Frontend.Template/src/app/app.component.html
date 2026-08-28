@@ -1,0 +1,356 @@
+<div class="app-shell">
+
+  <!-- ════════════════ SIDEBAR ════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+          <path d="M2 17l10 5 10-5" />
+          <path d="M2 12l10 5 10-5" />
+        </svg>
+      </div>
+      <span class="logo-text">DeepOcean</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item active">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        Clients
+        <span class="nav-badge">{{ clients.length }}</span>
+      </a>
+      <a class="nav-item disabled">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <path d="M3 9h18M9 21V9" />
+        </svg>
+        Products
+      </a>
+      <a class="nav-item disabled">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+        </svg>
+        Reports
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sdk-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="12" cy="12" r="10" />
+        </svg>
+        SDK Connected
+      </div>
+    </div>
+  </aside>
+
+  <!-- ════════════════ MAIN CONTENT ════════════════ -->
+  <main class="main-content">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title">Clients</h1>
+        <span class="page-subtitle">Manage your client master data</span>
+      </div>
+      <div class="topbar-right">
+        <div class="search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" placeholder="Search clients..." [(ngModel)]="searchQuery" class="search-input" />
+        </div>
+        <button class="btn-primary" (click)="openAddModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          Add Client
+        </button>
+      </div>
+    </header>
+
+    <!-- Success Toast -->
+    <div class="toast toast-success" *ngIf="successMessage">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+      {{ successMessage }}
+    </div>
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon stat-blue">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-value">{{ clients.length }}</div>
+          <div class="stat-label">Total Clients</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-green">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07" />
+            <path d="M11 5H6a2 2 0 0 0-2 2v14l4-4h9a2 2 0 0 0 2-2V9" />
+          </svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-value">{{ clients | phoneCount }}</div>
+          <div class="stat-label">With Phone</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-purple">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-value">Today</div>
+          <div class="stat-label">Last Sync</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table Card -->
+    <div class="table-card">
+      <div class="table-header">
+        <div class="table-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6" />
+            <line x1="8" y1="12" x2="21" y2="12" />
+            <line x1="8" y1="18" x2="21" y2="18" />
+            <line x1="3" y1="6" x2="3.01" y2="6" />
+            <line x1="3" y1="12" x2="3.01" y2="12" />
+            <line x1="3" y1="18" x2="3.01" y2="18" />
+          </svg>
+          Client Records
+          <span class="record-count" *ngIf="searchQuery">{{ filteredClients.length }} of {{ clients.length }}</span>
+          <span class="record-count" *ngIf="!searchQuery">{{ clients.length }} records</span>
+        </div>
+        <button class="btn-ghost" (click)="loadClients()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            [class.spin]="isLoading">
+            <polyline points="1 4 1 10 7 10" />
+            <path d="M3.51 15a9 9 0 1 0 .49-3.51" />
+          </svg>
+          Refresh
+        </button>
+      </div>
+
+      <!-- Loading Skeleton -->
+      <div class="skeleton-container" *ngIf="isLoading">
+        <div class="skeleton-row" *ngFor="let i of [1,2,3]">
+          <div class="skeleton-cell skeleton-id"></div>
+          <div class="skeleton-cell skeleton-name"></div>
+          <div class="skeleton-cell skeleton-phone"></div>
+          <div class="skeleton-cell skeleton-actions"></div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="!isLoading && filteredClients.length === 0">
+        <div class="empty-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+          </svg>
+        </div>
+        <p class="empty-title">No clients found</p>
+        <p class="empty-sub" *ngIf="searchQuery">Try adjusting your search query.</p>
+        <p class="empty-sub" *ngIf="!searchQuery">Click "Add Client" to get started.</p>
+      </div>
+
+      <!-- Table -->
+      <table class="data-table" *ngIf="!isLoading && filteredClients.length > 0">
+        <thead>
+          <tr>
+            <th style="width: 60px">#</th>
+            <th>Client Name</th>
+            <th>Phone</th>
+            <th style="width: 100px; text-align: right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of filteredClients; trackBy: trackById" class="table-row">
+            <td>
+              <div class="id-badge">#{{ client.Id }}</div>
+            </td>
+            <td>
+              <div class="client-info">
+                <div class="client-avatar">{{ (client.Name || '?').charAt(0).toUpperCase() }}</div>
+                <span class="client-name">{{ client.Name }}</span>
+              </div>
+            </td>
+            <td>
+              <span class="phone-badge" *ngIf="client.Phone">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+                {{ client.Phone }}
+              </span>
+              <span class="empty-field" *ngIf="!client.Phone">—</span>
+            </td>
+            <td>
+              <div class="action-group">
+                <button class="btn-icon btn-edit" (click)="openEditModal(client)" title="Edit">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                  </svg>
+                </button>
+                <button class="btn-icon btn-delete" (click)="confirmDelete(client.Id)" title="Delete">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SDK Code Preview -->
+    <div class="sdk-preview-card">
+      <div class="sdk-preview-header">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+        SDK Logic (DeepOcean.Logic.Template → Clinets.cs)
+      </div>
+      <pre class="sdk-code"><span class="code-comment">// Get all clients via DeepOcean SDK</span>
+<span class="code-keyword">var</span> api = <span class="code-keyword">await</span> DeepOcean.SDK.ApiClinet.HttpClinet
+    .Get&lt;Clients&gt;(<span class="code-string">"Clients"</span>, pageIndex: <span class="code-number">1</span>, pageSize: <span class="code-number">50</span>);
+
+<span class="code-comment">// Save (Add/Update) a client</span>
+<span class="code-keyword">var</span> result = <span class="code-keyword">await</span> DeepOcean.SDK.ApiClinet.HttpClinet
+    .Save(<span class="code-string">"Clients"</span>, newClient);</pre>
+    </div>
+
+  </main>
+</div>
+
+<!-- ════════════════ ADD / EDIT MODAL ════════════════ -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title-group">
+        <div class="modal-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+          </svg>
+        </div>
+        <h2 class="modal-title">{{ isEditing ? 'Edit Client' : 'New Client' }}</h2>
+      </div>
+      <button class="modal-close" (click)="closeModal()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="error-alert" *ngIf="errorMessage">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+        {{ errorMessage }}
+      </div>
+
+      <form (ngSubmit)="submitForm()">
+        <!-- Name Field -->
+        <div class="form-group">
+          <label class="form-label">
+            Client Name
+            <span class="required-star">*</span>
+          </label>
+          <div class="input-wrapper">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            <input type="text" class="form-input" placeholder="e.g. Ahmed Hassan" [(ngModel)]="formData.Name"
+              name="Name" required maxlength="200" autofocus />
+          </div>
+          <span class="form-hint">Maximum 200 characters (SchemaColumn: Name)</span>
+        </div>
+
+        <!-- Phone Field -->
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+            <input type="text" class="form-input" placeholder="e.g. 01012345678" [(ngModel)]="formData.Phone"
+              name="Phone" maxlength="55" />
+          </div>
+          <span class="form-hint">Optional — Maximum 55 characters (SchemaColumn: Phone)</span>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" (click)="closeModal()">Cancel</button>
+          <button type="submit" class="btn-primary" [disabled]="isSubmitting">
+            <svg *ngIf="isSubmitting" class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <polyline points="1 4 1 10 7 10" />
+              <path d="M3.51 15a9 9 0 1 0 .49-3.51" />
+            </svg>
+            <svg *ngIf="!isSubmitting" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            {{ isSubmitting ? 'Saving...' : (isEditing ? 'Save Changes' : 'Add Client') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ DELETE CONFIRM ════════════════ -->
+<div class="modal-overlay" *ngIf="deleteConfirmId != null" (click)="cancelDelete()">
+  <div class="modal modal-sm" (click)="$event.stopPropagation()">
+    <div class="delete-icon-wrap">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="3 6 5 6 21 6" />
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+      </svg>
+    </div>
+    <h3 class="delete-title">Delete Client?</h3>
+    <p class="delete-sub">This action cannot be undone. The record will be permanently removed from the database.</p>
+    <div class="modal-actions">
+      <button class="btn-ghost" (click)="cancelDelete()">Cancel</button>
+      <button class="btn-danger" (click)="deleteClient()">Delete</button>
+    </div>
+  </div>
+</div>
