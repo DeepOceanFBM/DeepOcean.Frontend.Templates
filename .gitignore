@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/DeepOcean.Frontend.Template/DeepOcean.Schema.Template/obj
+/DeepOcean.Frontend.Template/DeepOcean.Logic.Template/bin
+/DeepOcean.Frontend.Template/DeepOcean.Logic.Template/obj
